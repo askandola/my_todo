@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block loginpage %}active disabled{% endblock loginpage %}
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <form class="col-lg-4 offset-lg-4 col-md-6 offset-md-3" action="/login" method="POST">
+            <div class="d-flex flex-column align-items-center">
+                <img class="mb-4" src="{{url_for('static',filename='img/logo.png')}}" alt="" width="100" height="100">
+                <h1 class="mb-3 fw-normal text-center">Login</h1>
+            </div>
+            {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category,message in messages %}
+            <div class="alert alert-{{category}}">{{message}}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="mb-3">New user? <a href="/signup"> Register here</a></div>
+            <div class="mb-3">
+                <label for="inputEmail1" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="inputEmail1">
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword1" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="inputPassword1" autocomplete required>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                    Forgot Password?
+                </button>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+        </form>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="forgotPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="forgotpasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="forgotPassword" action="/forgot-password" method="POST">
+                    <div class="mb-3">
+                        <label for="enterEmail" class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" id="enterEmail" required>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="submit" form="forgotPassword" class="btn btn-primary">Send Password Reset
+                        Email</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

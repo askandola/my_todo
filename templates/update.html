@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container mt-5">
+        <h1>Update Todo</h1>
+        <div class="row my-5">
+            <form class="col-lg-8 offset-lg-2" action="/update/{{todo.key()}}" method="POST">
+                <div class="mb-3">
+                    <label for="enterTitle" class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" id="enterTitle" value='{{todo.val()["title"]}}'>
+                </div>
+                <div class="mb-3">
+                    <label for="enterDesc" class="form-label">Description</label>
+                    <input type="text" name="desc" class="form-control" id="enterDesc" value='{{todo.val()["description"]}}'>
+                </div>
+                <label class="form-label">Scheduled for</label>
+                <div class="input-group mb-3">
+                    <input type="date" name="date" class="form-control" placeholder="dd-mm-yyyy" value='{{todo.val()["deadline_date"]}}'>
+                    <input type="time" name="time" class="form-control" placeholder="--:--" value='{{todo.val()["deadline_time"]}}'>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
+                <button type="reset" class="btn btn-outline-dark">Reset</button>
+                <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+            </form>
+        </div>
+    </div>
+{% endblock body %}

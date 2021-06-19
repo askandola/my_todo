@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category,message in messages %}
+    <div class="container mt-4">
+        <div class="row">
+        <div class="alert alert-{{category}} alert-dismissible fade show mb-3" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="position-relative overflow-hidden p-3 mt-0 p-md-5 m-md-3 mt-md-0 text-center bg-light">
+        <div class="col-md-5 p-lg-5 pt-0 mx-auto my-5">
+            <h1 class="display-4 fw-normal">My Todo</h1>
+            <p class="lead fw-normal">My Todo is a task management tool to help you stay organized and manage your
+                day-to-day. My Todo makes it easy to stay organized and manage your life.</p>
+            <a class="btn btn-outline-dark" href="/signup">Create Account</a>
+        </div>
+        <div class="product-device shadow-sm d-none d-lg-block"></div>
+        <div class="product-device product-device-2 shadow-sm d-none d-lg-block"></div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Focus on important things</h2>
+                <p class="lead">At home, at work and in your free time - you will focus on really important things! My
+                    Todo is powerful in its simplicity and convenience of use.</p>
+            </div>
+            <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+            </div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Increase productivity</h2>
+                <p class="lead">My Todo makes it easy to keep track of everything you have to get done — so you can
+                    focus on being productive.</p>
+            </div>
+            <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+            </div>
+        </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Simple and Efficient</h2>
+                <p class="lead">My Todo is simple and awesome app to organize your tasks with very easy to use
+                    interface.</p>
+            </div>
+            <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+            </div>
+        </div>
+        <div class="bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">List View</h2>
+                <p class="lead">Map out each piece of work in a list, organize all of the details in one place, and
+                    manage tasks from start to finish.</p>
+            </div>
+            <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock body %}

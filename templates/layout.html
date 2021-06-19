@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='img/logo.png')}}" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link href="{{url_for('static',filename='css/about.css')}}" rel="stylesheet">
+
+    <title>My Todo</title>
+
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand me-3" href="/">My Todo</a>
+                {% if 'user' in session %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                {% else %}
+                <div class="navbar-expand justify-content-end">
+                {% endif %}
+                    <ul class="navbar-nav mb-lg-0">
+                        {% if 'user' in session %}
+                        <li class="nav-item mx-1">
+                            <form action="/forgot-password" method="POST">
+                                <input class="d-none" name="email" type="email" value="{{session['user']}}">
+                                <button type="submit" class="btn btn-link nav-link">Change Password</button></li>
+                            </form>
+                        <li class="nav-item mx-1"><button class="btn btn-link nav-link" data-bs-toggle="modal"
+                                data-bs-target="#deleteAccountModal">Delete Accout</button></li>
+                        <li class="nav-item mx-1"><a class="nav-link" href="/logout">Logout</a></li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% block loginpage %}{% endblock loginpage %}" href="/login">Login</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% block body %}
+    {% endblock body %}
+    {% if 'user' in session %}
+    <!-- Delete Account Modal -->
+    <div class="modal fade" id="deleteAccountModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger mb-3">
+                        <p class="mb-0">Deletion is a permanent process. All data will be permanently deleted. Please verify your
+                            credentials to delete account.</p>
+                    </div>
+                    <form id="deleteAccount" action="/delete-account" method="POST">
+                        <div class="mb-3">
+                            <label for="enterEmailDelete" class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" id="enterEmailDelete"
+                                value="{{session['user']}}" disabled required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="enterPassword" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="enterPassword" autocomplete
+                                required>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="submit" form="deleteAccount" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <footer class="footer mt-auto py-3 bg-dark justify-content-end">
+        <div class="container">
+            <p class="text-center text-light mb-0">© My Todo</p>
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script> -->
+
+</body>
+
+</html>

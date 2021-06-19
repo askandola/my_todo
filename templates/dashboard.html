@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container mt-5">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category,message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible fade show mb-3" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <!-- Button trigger modal -->
+    <div class="row">
+        <button type="button" class="col-6 mx-auto btn btn-outline-dark btn-lg mb-5" data-bs-toggle="modal" data-bs-target="#createTodoModal">
+            Create Todo
+        </button>
+    </div>
+    <!-- Create Todo Modal -->
+    <div class="modal fade" id="createTodoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createTodoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createTodoModalLabel">Create Todo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createTodo" action="/dashboard" method="POST">
+                        <div class="mb-3">
+                            <label for="enterTitle" class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control" id="enterTitle"
+                                aria-describedby="EnterTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="enterDesc" class="form-label">Description</label>
+                            <input type="text" name="desc" class="form-control" id="enterDesc"
+                                aria-describedby="EnterDesc" required>
+                        </div>
+                        <label class="form-label">Scheduled for (optional)</label>
+                        <div class="form-floating">
+                            <input id="dateInput" type="date" name="date" class="form-control" placeholder="dd-mm-yyyy">
+                            <label for="dateInput">Date</label>
+                        </div>
+                        <div class="form-floating">
+                            <input id="timeInput" type="time" name="time" class="form-control" placeholder="--:--">
+                            <label for="timeInput">Time</label>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="submit" form="createTodo" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center mx-0">
+        <h1 class="col-md-8 px-0 my-4">Your Todos</h1>
+        {% if all_todos.val() is none %}
+        </div>
+        <div class="alert alert-warning my-3" role="alert">
+            No Todos found.
+        </div>
+        {% else %}
+        <div class="col-md-4 mb-4">
+            <input id="searchbar" class="form-control" type="search" onkeyup="filterTodos()" placeholder="Search Your Todos">
+        </div>
+    </div>
+    <div class="overflow-auto">
+        <table id="todos" class="table tabel-hover overflow-hidden">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in all_todos.each() %}
+                <tr>
+                    {% set deadline=todo.val()['deadline_date']+" "+todo.val()['deadline_time'] %}
+                    <th scope="row">{{loop.index}}</th>
+                    <td class="todoDesc">{{todo.val()["title"]}}</td>
+                    <td class="todoDesc">{{todo.val()["description"]}}</td>
+                    {% if deadline==" " %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{deadline}}</td>
+                    {% endif %}
+                    <td>
+                        <a class="btn btn-outline-secondary btn-sm mx-1" href="/update/{{todo.key()}}">Update</a>
+                        <a class="btn btn-outline-danger btn-sm mx-1" href="/delete/{{todo.key()}}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% if all_todos.val() is not none %}
+<!-- Custom javascript-->
+<script src="{{url_for('static',filename='js/search.js')}}"></script>
+{% endif %}
+{% endblock body %}
