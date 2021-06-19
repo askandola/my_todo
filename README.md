@@ -20,7 +20,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd my_todo
 ```
 
 If you want use virtual environment
@@ -38,6 +38,8 @@ Install dependencies
 ```bash
   pip install -r requirements.txt
 ```
+
+Make a Firebase project for a web app. Set up authentication(enable for Email/Password) and realtime database. Then add Firebase configuration object containing keys and identifiers to 'firebaseConfig' variable in 'app.py' file.
 
 Start the server
 
