@@ -34,3 +34,4 @@
 *.vscode
 *.cph
 *venv
+*flask_session

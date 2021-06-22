@@ -1,16 +1,21 @@
 from flask import Flask,render_template,request,redirect,session,flash
+from flask_session import Session
 import pyrebase
 import os
 
 app=Flask(__name__)
 
-app.secret_key=os.urandom(24)
+app.secret_key = os.urandom(24)
+
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 firebaseConfig={
     "apiKey": "apiKey",
     "authDomain": "projectId.firebaseapp.com",
     "databaseURL": "https://databaseName.firebaseio.com",
-    "storageBucket": "projectId.appspot.com"
+    "storageBucket": "projectId.appspot.com",
+    "serviceAccount": "path/to/serviceAccountCredentials.json"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -24,12 +29,12 @@ db=firebase.database()
 def home():
     if 'user' in session :
         return redirect("/dashboard")
-    return render_template("index.html");
+    return render_template("index.html")
 
 
 @app.route("/dashboard",methods=['GET','POST'])
 def dashboard():
-    if 'user' in session:
+    if 'user' in session :
         username = session['user'].replace('.','_')
         if request.method=="POST":
             title = request.form['title']
@@ -66,17 +71,13 @@ def signup():
 
 @app.route("/login",methods=['GET','POST'])
 def login():
-    if 'user' in session :
-        message=session['user']+" is already logged in. Logout first to login again."
-        flash(message,"warning")
-        return redirect("/dashboard")
     if request.method == "POST" :
         email = request.form['email']
         password = request.form['password']
         try:
-            user=auth.sign_in_with_email_and_password(email=email,password=password)
-            user=auth.refresh(user['refreshToken'])
-            session['user']=email
+            user = auth.sign_in_with_email_and_password(email=email,password=password)
+            user = auth.refresh(user['refreshToken'])
+            session['user'] = email
             return redirect("/dashboard")
         except:
             flash("Invalid email or password","danger")
@@ -86,9 +87,10 @@ def login():
 @app.route("/logout")
 def logout():
     if 'user' in session :
-        message=session['user']+" logged out successfully."
+        message = session['user'] + " logged out successfully."
         session.pop('user')
         flash(message,"success")
+        return redirect("/")
     return redirect("/")
 
 
@@ -102,7 +104,7 @@ def update(id):
             date = request.form['date']
             time = request.form['time']
             db.child(username).child(id).update({"title":title,"description":desc,"deadline_date":date,"deadline_time":time})
-            return redirect("/dashboard")  
+            return redirect("/dashboard")
         todo = db.child(username).child(id).get()
         return render_template('update.html',todo=todo)
     return redirect("/")
@@ -113,15 +115,17 @@ def delete(id):
     if 'user' in session :
         username = session['user'].replace('.','_')
         db.child(username).child(id).remove()
+        return redirect("/dashboard")
     return redirect("/")
 
 
 @app.route("/forgot-password",methods=['GET','POST'])
 def reset_password():
-    if request.method == "POST" :
-        email=request.form['email']
-        auth.send_password_reset_email(email)
-        flash("Password reset email sent successfully. Follow instructions given in the email to reset your password.","success")
+    if 'user' in session :
+        if request.method == "POST" :
+            email=request.form['email']
+            auth.send_password_reset_email(email)
+            flash("Password reset email sent successfully. Follow instructions given in the email to reset your password.","success")
     return redirect("/")
 
 
@@ -144,4 +148,4 @@ def delete_account() :
     return redirect("/")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug = True)
