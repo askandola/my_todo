@@ -1,7 +1,7 @@
 
 # My Todo
 
-My Todo is a simple web app that stores the todo list of a user. User can view his/her todos, create a new todo, update an existing todo and delete todo. This web app is deployed on Heroku at https://todo-askandola.herokuapp.com/ .
+My Todo is a simple web app that stores the todo list of a user. User can view his/her todos, create a new todo, update an existing todo and delete todo.
 
 
 ## Tech Stack
