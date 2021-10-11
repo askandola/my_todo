@@ -58,7 +58,7 @@ def signup():
                 try:
                     user=auth.create_user_with_email_and_password(email,pw)
                     auth.send_email_verification(user['idToken'])
-                    flash("Account created successfully. You can now Login using your account.","success")
+                    flash("Account created successfully. Login using your account details.","success")
                     return redirect("/login")
                 except:
                     flash("Email already exists","danger")
@@ -125,7 +125,7 @@ def reset_password():
         if request.method == "POST" :
             email=request.form['email']
             auth.send_password_reset_email(email)
-            flash("Password reset email sent successfully. Follow instructions given in the email to reset your password.","success")
+            flash("Password reset email sent successfully to registered email id. Follow instructions given in the email to reset your password.","success")
     return redirect("/")
 
 

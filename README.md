@@ -1,7 +1,9 @@
 
-# My Todo
+# Todo Website
 
-My Todo is a simple web app that stores the todo list of a user. User can view his/her todos, create a new todo, update an existing todo and delete todo.
+Todo website stores the todo list of a user. User can view his/her todos, create a new todo, update an existing todo and delete todo.
+
+Deployed om Heroku at https://todo-askandola.herokuapp.com/
 
 
 ## Tech Stack
@@ -16,13 +18,13 @@ My Todo is a simple web app that stores the todo list of a user. User can view h
 Clone the project
 
 ```bash
-  git clone https://github.com/askandola/my_todo.git
+  git clone https://github.com/askandola/todo_website.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd my_todo
+  cd todo_website
 ```
 
 If you want use virtual environment
