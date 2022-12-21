@@ -3,8 +3,6 @@
 
 Todo website stores the todo list of a user. User can view his/her todos, create a new todo, update an existing todo and delete todo.
 
-Deployed om Heroku at https://todo-askandola.herokuapp.com/
-
 
 ## Tech Stack
 
